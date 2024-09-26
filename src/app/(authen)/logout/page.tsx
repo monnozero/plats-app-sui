@@ -8,7 +8,7 @@ const LogoutPage = () => {
 
   const handleLogout = useCallback(async () => {
     await authApiRequest.logoutFromNextClientToNextServer(true).then((res) => {
-      console.log("logged out");
+      console.log("logged out app");
       route.push(`/login`);
     });
   }, [route]);
