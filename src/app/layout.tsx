@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SolWalletProvider from "@/providers/SolWalletProvider";
 import AppProvider from "@/providers/AppProvider";
 import { cookies } from "next/headers";
-import "@solana/wallet-adapter-react-ui/styles.css";
 import { Toaster } from "@/components/ui/toaster";
-
+import { AptosProvider } from "@/providers/AptosContext";
+import SuiWalletProvider from "@/providers/SuiWalletProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,22 +19,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const cookieStore = cookies()
-  const accessToken = cookieStore.get('accessToken')
-  let user:  any | null = null;
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("accessToken");
+  let user: any | null = null;
 
   return (
     <html lang="en">
       <body className={inter.className}>
-      <SolWalletProvider>
-          <AppProvider initialAccessToken={accessToken?.value} user={user}>
-          <Toaster />
-          {children}
-         
-        
-          </AppProvider>
-       </SolWalletProvider>
+        <AptosProvider>
+          <SuiWalletProvider>
+            <AppProvider initialAccessToken={accessToken?.value} user={user}>
+              <Toaster />
+              {children}
+            </AppProvider>
+          </SuiWalletProvider>
+        </AptosProvider>
       </body>
     </html>
   );
